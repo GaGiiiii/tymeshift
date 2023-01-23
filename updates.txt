@@ -1,3 +1,7 @@
+========== Global updates ==========
+
+1. Every file is PSR12 compatible now.
+
 ========== Suggestions ==========
 
 1. Return lines should ALWAYS have an empty line above them so the code is more readable, except if return line is the only line in the code block. 
@@ -15,3 +19,8 @@
 4. offsetSet() returns void.
 5. offsetUnset() returns void.
 6. getAssoc() returns BaseCollection instead of Collection now.
+
+========== Exceptions Updates ==========
+
+1. Added protected visibility to the message variable.
+2. Updated StorageDataMissingException
