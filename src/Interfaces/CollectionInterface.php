@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Tymeshift\PhpTest\Interfaces;
@@ -10,7 +11,7 @@ interface CollectionInterface
      * @param EntityInterface $entity
      * @return $this
      */
-    public function add(EntityInterface $entity):self;
+    public function add(EntityInterface $entity): self;
 
     /**
      * Creates Collection from array
@@ -18,11 +19,11 @@ interface CollectionInterface
      * @param FactoryInterface $factory
      * @return $this
      */
-    public function createFromArray(array $data, FactoryInterface $factory):self;
+    public function createFromArray(array $data, FactoryInterface $factory): self;
 
     /**
      * Creates array from collection
      * @return array
      */
-    public function toArray():array;
+    public function toArray(): array;
 }

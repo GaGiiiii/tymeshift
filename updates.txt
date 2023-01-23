@@ -24,3 +24,8 @@
 
 1. Added protected visibility to the message variable.
 2. Updated StorageDataMissingException
+
+========== Interfaces Updates ==========
+
+1. FactoryInterface - added new method createCollection.
+2. RepositoryInterface - added new methods(getAll, update, delete)
