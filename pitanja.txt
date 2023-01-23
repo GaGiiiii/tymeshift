@@ -1,0 +1,1 @@
+1. Mozda dodati composer i u Dockerfile i iz Makefile skloniti iz run komande volume.
