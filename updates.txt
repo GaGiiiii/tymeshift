@@ -5,6 +5,7 @@
 ========== Suggestions ==========
 
 1. Return lines should ALWAYS have an empty line above them so the code is more readable, except if return line is the only line in the code block. 
+2. Create DTO's for Domains.
 
 ========== Dockerfile Updates ==========
 
@@ -42,3 +43,6 @@
 8. Added ScheduleStorageInterface
 9. Added Database class
 10. Added StorageInterface
+11. Added TaskEntity 
+12. Implemented createEntity in TaskFactory
+13. Added TaskStorageInterface, TaskStorage

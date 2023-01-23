@@ -3,7 +3,7 @@
 namespace Tymeshift\PhpTest\Domains\Schedule;
 
 use Tymeshift\PhpTest\Domains\Schedule\ScheduleStorage;
-use Tymeshift\PhpTest\Interfaces\CollectionInterface;
+use Tymeshift\PhpTest\Domains\Task\ScheduleCollection;
 use Tymeshift\PhpTest\Interfaces\EntityInterface;
 use Tymeshift\PhpTest\Interfaces\FactoryInterface;
 use Tymeshift\PhpTest\Interfaces\RepositoryInterface;
@@ -27,14 +27,14 @@ class ScheduleRepository implements RepositoryInterface
         return $this->factory->createEntity($data);
     }
 
-    public function getByIds(array $ids): CollectionInterface
+    public function getByIds(array $ids): ScheduleCollection
     {
         $data = $this->storage->getByIds($ids);
 
         return $this->factory->createCollection($data);
     }
 
-    public function getAll(): CollectionInterface
+    public function getAll(): ScheduleCollection
     {
         $data = $this->storage->getAll();
 
