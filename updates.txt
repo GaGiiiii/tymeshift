@@ -46,4 +46,8 @@
 11. Added TaskEntity 
 12. Implemented createEntity in TaskFactory
 13. Added TaskStorageInterface, TaskStorage
+14. Improved repository pattern and storages, added error handling as well.
+15. Added Schedule Service and tests.
+
+
 
