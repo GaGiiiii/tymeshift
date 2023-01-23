@@ -1,12 +1,13 @@
 FROM php:8.0-cli-alpine
 
-MAINTAINER tymeshiftwfm
+LABEL maintainer="tymeshiftwfm" \
+    version="1.0" \
+    description="Tymeshifts PHP test."
 
-ADD . /project
+COPY . /project
 
 WORKDIR /project
 
-RUN php -r "readfile('http://getcomposer.org/installer');" | php -- --install-dir=/usr/bin/ --filename=composer &&\
-    apk add make
-
-RUN composer i
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer\
+    && apk add make\
+    && composer install --optimize-autoloader --no-dev

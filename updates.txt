@@ -1,0 +1,3 @@
+========== DOCKERFILE UPDATES ==========
+1. Removed volume from docker run command and added composer install to the Dockerfile.
+2. Removed maintainer (deprecated), removed add (copy is better practice), updated composer install (more efficient and shorter).
