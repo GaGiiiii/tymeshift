@@ -11,6 +11,7 @@ class TaskStorage implements TaskStorageInterface
 {
     private HttpClientInterface $client;
     private DatabaseInterface $db;
+    private string $table = 'tasks';
 
     public function __construct(
         HttpClientInterface $httpClient,
@@ -50,13 +51,13 @@ class TaskStorage implements TaskStorageInterface
         return $this->db->query('SELECT * FROM schedules', []);
     }
 
-    public function update(string $table, array $data, array $conditions): int
+    public function update(array $data, array $conditions): int
     {
-        return $this->db->update($table, $data, $conditions);
+        return $this->db->update($this->table, $data, $conditions);
     }
 
-    public function delete(string $table, array $conditions): int
+    public function delete(array $conditions): int
     {
-        return $this->db->delete($table, $conditions);
+        return $this->db->delete($this->table, $conditions);
     }
 }

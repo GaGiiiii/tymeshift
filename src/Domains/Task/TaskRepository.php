@@ -12,7 +12,6 @@ class TaskRepository implements RepositoryInterface
 {
     private TaskFactory $factory;
     private TaskStorage $storage;
-    private string $table = 'tasks';
 
     public function __construct(TaskStorage $storage, TaskFactory $factory)
     {
@@ -22,7 +21,13 @@ class TaskRepository implements RepositoryInterface
 
     public function getByScheduleId(int $scheduleId): TaskCollection
     {
-        $data = $this->storage->getByScheduleId($scheduleId);
+        try {
+            $data = $this->storage->getByScheduleId($scheduleId);
+        } catch (PDOException $e) {
+            throw $e;
+        } catch (Exception $e) {
+            throw $e;
+        }
 
         if (empty($data)) {
             throw new StorageDataMissingException();
@@ -33,39 +38,89 @@ class TaskRepository implements RepositoryInterface
 
     public function getById(int $id): EntityInterface
     {
-        $data = $this->storage->getById($id);
+        try {
+            $data = $this->storage->getById($id);
+        } catch (PDOException $e) {
+            throw $e;
+        } catch (Exception $e) {
+            throw $e;
+        }
+
+        if (empty($data)) {
+            throw new StorageDataMissingException();
+        }
 
         return $this->factory->createEntity($data);
     }
 
     public function getByIds(array $ids): TaskCollection
     {
-        $data = $this->storage->getByIds($ids);
+        try {
+            $data = $this->storage->getByIds($ids);
+        } catch (PDOException $e) {
+            throw $e;
+        } catch (Exception $e) {
+            throw $e;
+        }
+
+        if (empty($data)) {
+            throw new StorageDataMissingException();
+        }
 
         return $this->factory->createCollection($data);
     }
 
     public function getAll(): TaskCollection
     {
-        $data = $this->storage->getAll();
+        try {
+            $data = $this->storage->getAll();
+        } catch (PDOException $e) {
+            throw $e;
+        } catch (Exception $e) {
+            throw $e;
+        }
+
+        if (empty($data)) {
+            throw new StorageDataMissingException();
+        }
 
         return $this->factory->createCollection($data);
     }
 
     public function update(array $data, int $id): int
     {
-        $rowsUpdated = $this->storage->update($this->table, $data, [
-            'id' => $id
-        ]);
+        try {
+            $rowsUpdated = $this->storage->update($data, [
+                'id' => $id
+            ]);
+        } catch (PDOException $e) {
+            throw $e;
+        } catch (Exception $e) {
+            throw $e;
+        }
+
+        if ($rowsUpdated === 0 || $rowsUpdated === -1) {
+            throw new DataNotUpdatedException('Update failed for the task with the ID: ' . $id);
+        }
 
         return $rowsUpdated;
     }
 
     public function delete(int $id): int
     {
-        $rowsUpdated = $this->storage->delete($this->table, [
-            'id' => $id
-        ]);
+        try {
+            $rowsUpdated = $this->storage->delete([
+                'id' => $id
+            ]);
+        } catch (PDOException $e) {
+            throw $e;
+        } catch (Exception $e) {
+            throw $e;
+        }
+
+        if ($rowsUpdated === 0 || $rowsUpdated === -1) {
+            throw new DataNotDeletedException('Delete failed for the task with the ID: ' . $id);
+        }
 
         return $rowsUpdated;
     }

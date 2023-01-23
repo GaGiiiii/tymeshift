@@ -4,16 +4,15 @@ declare(strict_types=1);
 
 namespace Tymeshift\PhpTest\Domains\Schedule;
 
+use PDOException;
 use Tymeshift\PhpTest\Components\DatabaseInterface;
 use Tymeshift\PhpTest\Interfaces\EntityInterface;
 use Tymeshift\PhpTest\Interfaces\StorageInterface;
 
 class ScheduleStorage implements ScheduleStorageInterface
 {
-    /**
-     * @var DatabaseInterface
-     */
     private DatabaseInterface $db;
+    private string $table = 'schedules';
 
     public function __construct(DatabaseInterface $database)
     {
@@ -22,31 +21,66 @@ class ScheduleStorage implements ScheduleStorageInterface
 
     public function getById(int $id): array
     {
-        return $this->db->query(
-            'SELECT * FROM schedules WHERE id=:id',
-            [
-                "id" => $id
-            ]
-        );
+        try {
+            return $this->db->query(
+                'SELECT * FROM schedules WHERE id=:id',
+                [
+                    "id" => $id
+                ]
+            );
+        } catch (PDOException $e) {
+            // Log to a file
+            throw $e;
+        } catch (Exception $e) {
+            throw $e;
+        }
     }
 
     public function getByIds(array $ids): array
     {
-        return $this->db->query('SELECT * FROM schedules WHERE id in (:ids)', $ids);
+        try {
+            return $this->db->query('SELECT * FROM schedules WHERE id in (:ids)', $ids);
+        } catch (PDOException $e) {
+            // Log to a file.
+            throw $e;
+        } catch (Exception $e) {
+            throw $e;
+        }
     }
 
     public function getAll(): array
     {
-        return $this->db->query('SELECT * FROM schedules', []);
+        try {
+            return $this->db->query('SELECT * FROM schedules', []);
+        } catch (PDOException $e) {
+            // Log to a file.
+            throw $e;
+        } catch (Exception $e) {
+            throw $e;
+        }
     }
 
-    public function update(string $table, array $data, array $conditions): int
+    public function update(array $data, array $conditions): int
     {
-        return $this->db->update($table, $data, $conditions);
+        try {
+            return $this->db->update($this->table, $data, $conditions);
+        } catch (PDOException $e) {
+            // Log to a file.
+            throw $e;
+        } catch (Exception $e) {
+            throw $e;
+        }
     }
 
-    public function delete(string $table, array $conditions): int
+    public function delete(array $conditions): int
     {
-        return $this->db->delete($table, $conditions);
+        try {
+            return $this->db->delete($this->table, $conditions);
+        } catch (PDOException $e) {
+            // Log to a file.
+            throw $e;
+        } catch (Exception $e) {
+            throw $e;
+        }
     }
 }

@@ -2,7 +2,12 @@
 
 namespace Tymeshift\PhpTest\Domains\Schedule;
 
+use Exception;
+use PDO;
+use PDOException;
 use Tymeshift\PhpTest\Domains\Schedule\ScheduleStorage;
+use Tymeshift\PhpTest\Exceptions\DataNotDeletedException;
+use Tymeshift\PhpTest\Exceptions\DataNotUpdatedException;
 use Tymeshift\PhpTest\Exceptions\StorageDataMissingException;
 use Tymeshift\PhpTest\Interfaces\EntityInterface;
 use Tymeshift\PhpTest\Interfaces\FactoryInterface;
@@ -12,7 +17,6 @@ class ScheduleRepository implements RepositoryInterface
 {
     private ScheduleStorage $storage;
     private ScheduleFactory $factory;
-    private string $table = 'schedules';
 
     public function __construct(ScheduleStorage $storage, FactoryInterface $factory)
     {
@@ -22,7 +26,13 @@ class ScheduleRepository implements RepositoryInterface
 
     public function getById(int $id): EntityInterface
     {
-        $data = $this->storage->getById($id);
+        try {
+            $data = $this->storage->getById($id);
+        } catch (PDOException $e) {
+            throw $e;
+        } catch (Exception $e) {
+            throw $e;
+        }
 
         if (empty($data)) {
             throw new StorageDataMissingException();
@@ -33,32 +43,72 @@ class ScheduleRepository implements RepositoryInterface
 
     public function getByIds(array $ids): ScheduleCollection
     {
-        $data = $this->storage->getByIds($ids);
+        try {
+            $data = $this->storage->getByIds($ids);
+        } catch (PDOException $e) {
+            throw $e;
+        } catch (Exception $e) {
+            throw $e;
+        }
+
+        if (empty($data)) {
+            throw new StorageDataMissingException();
+        }
 
         return $this->factory->createCollection($data);
     }
 
     public function getAll(): ScheduleCollection
     {
-        $data = $this->storage->getAll();
+        try {
+            $data = $this->storage->getAll();
+        } catch (PDOException $e) {
+            throw $e;
+        } catch (Exception $e) {
+            throw $e;
+        }
+
+        if (empty($data)) {
+            throw new StorageDataMissingException();
+        }
 
         return $this->factory->createCollection($data);
     }
 
     public function update(array $data, int $id): int
     {
-        $rowsUpdated = $this->storage->update($this->table, $data, [
-            'id' => $id
-        ]);
+        try {
+            $rowsUpdated = $this->storage->update($data, [
+                'id' => $id
+            ]);
+        } catch (PDOException $e) {
+            throw $e;
+        } catch (Exception $e) {
+            throw $e;
+        }
+
+        if ($rowsUpdated === 0 || $rowsUpdated === -1) {
+            throw new DataNotUpdatedException('Update failed for the schedule with the ID: ' . $id);
+        }
 
         return $rowsUpdated;
     }
 
     public function delete(int $id): int
     {
-        $rowsUpdated = $this->storage->delete($this->table, [
-            'id' => $id
-        ]);
+        try {
+            $rowsUpdated = $this->storage->delete([
+                'id' => $id
+            ]);
+        } catch (PDOException $e) {
+            throw $e;
+        } catch (Exception $e) {
+            throw $e;
+        }
+
+        if ($rowsUpdated === 0 || $rowsUpdated === -1) {
+            throw new DataNotDeletedException('Delete failed for the schedule with the ID: ' . $id);
+        }
 
         return $rowsUpdated;
     }
