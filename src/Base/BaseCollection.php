@@ -163,7 +163,7 @@ abstract class BaseCollection implements
     /**
      * @return ArrayIterator|Traversable
      */
-    public function getIterator()
+    public function getIterator(): Traversable
     {
         return new ArrayIterator($this->items);
     }
@@ -171,7 +171,7 @@ abstract class BaseCollection implements
     /**
      * @return int
      */
-    public function count()
+    public function count(): int
     {
         return count($this->items);
     }
@@ -182,7 +182,7 @@ abstract class BaseCollection implements
      * @param mixed $key
      * @return bool
      */
-    public function offsetExists($key)
+    public function offsetExists($key): bool
     {
         return array_key_exists($key, $this->items);
     }
@@ -206,7 +206,7 @@ abstract class BaseCollection implements
      * @return void
      * @throws InvalidCollectionDataProvidedException
      */
-    public function offsetSet($key, $value)
+    public function offsetSet($key, $value): void
     {
         if (!$this->isEntity($value)) {
             throw new InvalidCollectionDataProvidedException();
@@ -224,7 +224,7 @@ abstract class BaseCollection implements
      * @param string $key
      * @return void
      */
-    public function offsetUnset($key)
+    public function offsetUnset($key): void
     {
         unset($this->items[$key]);
     }
@@ -315,7 +315,7 @@ abstract class BaseCollection implements
      * @return Collection
      * @throws InvalidCollectionDataProvidedException
      */
-    public function getAssoc(string $property = 'id'): Collection
+    public function getAssoc(string $property = 'id'): BaseCollection
     {
         $items = [];
         foreach ($this->items as $index => $entity) {

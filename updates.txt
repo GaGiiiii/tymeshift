@@ -1,3 +1,17 @@
-========== DOCKERFILE UPDATES ==========
-1. Removed volume from docker run command and added composer install to the Dockerfile.
+========== Suggestions ==========
+
+1. Return lines should ALWAYS have an empty line above them so the code is more readable, except if return line is the only line in the code block. 
+
+========== Dockerfile Updates ==========
+
+1. Removed volume from docker run command and added composer install to the Dockerfile (We should not be entering the container after build).
 2. Removed maintainer (deprecated), removed add (copy is better practice), updated composer install (more efficient and shorter).
+
+========== BaseCollection Updates ==========
+
+1. getIterator() returns Traversable now.
+2. count() returns int now.
+3. offsetExists() returns bool now.
+4. offsetSet() returns void.
+5. offsetUnset() returns void.
+6. getAssoc() returns BaseCollection instead of Collection now.
