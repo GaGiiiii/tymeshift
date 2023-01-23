@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tymeshift\PhpTest\Domains\Task;
 
+use Tymeshift\PhpTest\Exceptions\StorageDataMissingException;
 use Tymeshift\PhpTest\Interfaces\EntityInterface;
 use Tymeshift\PhpTest\Interfaces\RepositoryInterface;
 
@@ -22,6 +23,10 @@ class TaskRepository implements RepositoryInterface
     public function getByScheduleId(int $scheduleId): TaskCollection
     {
         $data = $this->storage->getByScheduleId($scheduleId);
+
+        if (empty($data)) {
+            throw new StorageDataMissingException();
+        }
 
         return $this->factory->createCollection($data);
     }

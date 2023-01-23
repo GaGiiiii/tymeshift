@@ -22,7 +22,12 @@ class ScheduleStorage implements ScheduleStorageInterface
 
     public function getById(int $id): array
     {
-        return $this->db->query('SELECT * FROM schedules WHERE id=:id', ["id" => $id]);
+        return $this->db->query(
+            'SELECT * FROM schedules WHERE id=:id',
+            [
+                "id" => $id
+            ]
+        );
     }
 
     public function getByIds(array $ids): array

@@ -1,35 +1,37 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Tests;
 
 use Codeception\Example;
-use Codeception\Test\Unit;
-use Mockery\Mock;
-use Tymeshift\PhpTest\Components\HttpClientInterface;
 use Tymeshift\PhpTest\Domains\Task\TaskCollection;
 use Tymeshift\PhpTest\Domains\Task\TaskFactory;
 use Tymeshift\PhpTest\Domains\Task\TaskRepository;
 use Tymeshift\PhpTest\Domains\Task\TaskStorage;
+use Tymeshift\PhpTest\Exceptions\StorageDataMissingException;
 
 class TaskCest
 {
-
     /**
      * @var TaskRepository
      */
     private $taskRepository;
 
+    /**
+     * @var MockInterface|TaskStorage
+     */
+    private $taskStorageMock;
 
     public function _before()
     {
-        $httpClientMock = \Mockery::mock(HttpClientInterface::class);
-        $storage = new TaskStorage($httpClientMock);
-        $this->taskRepository = new TaskRepository($storage, new TaskFactory());
+        $this->taskStorageMock = \Mockery::mock(TaskStorage::class);
+        $this->taskRepository = new TaskRepository($this->taskStorageMock, new TaskFactory());
     }
 
     public function _after()
     {
+        $this->taskStorageMock = null;
         $this->taskRepository = null;
         \Mockery::close();
     }
@@ -39,14 +41,31 @@ class TaskCest
      */
     public function testGetTasks(Example $example, \UnitTester $tester)
     {
+        $arr = [];
+
+        foreach ($example as $task) {
+            $arr[] = $task;
+        }
+
+        $this->taskStorageMock
+            ->shouldReceive('getByScheduleId')
+            ->with(1)
+            ->andReturn($arr);
+
         $tasks = $this->taskRepository->getByScheduleId(1);
         $tester->assertInstanceOf(TaskCollection::class, $tasks);
+        $tester->assertCount(3, $tasks);
     }
 
     public function testGetTasksFailed(\UnitTester $tester)
     {
-        $tester->expectThrowable(\Exception::class, function (){
-            $this->taskRepository->getByScheduleId(4);
+        $this->taskStorageMock
+            ->shouldReceive('getByScheduleId')
+            ->with(1)
+            ->andReturn([]);
+
+        $tester->expectThrowable(StorageDataMissingException::class, function () {
+            $this->taskRepository->getByScheduleId(1);
         });
     }
 

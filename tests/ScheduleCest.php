@@ -13,7 +13,6 @@ use Tymeshift\PhpTest\Exceptions\StorageDataMissingException;
 
 class ScheduleCest
 {
-
     /**
      * @var MockInterface|ScheduleStorage
      */
@@ -50,9 +49,11 @@ class ScheduleCest
             ->andReturn(['id' => $id, 'start_time' => $startTime, 'end_time' => $endTime, 'name' => $name]);
 
         $entity = $this->scheduleRepository->getById($id);
+
         $tester->assertEquals($id, $entity->getId());
         $tester->assertEquals($startTime, $entity->getStartTime()->getTimestamp());
         $tester->assertEquals($endTime, $entity->getEndTime()->getTimestamp());
+        $tester->assertEquals($name, $entity->getName());
     }
 
     /**
@@ -64,6 +65,7 @@ class ScheduleCest
             ->shouldReceive('getById')
             ->with(4)
             ->andReturn([]);
+
         $tester->expectThrowable(StorageDataMissingException::class, function () {
             $this->scheduleRepository->getById(4);
         });

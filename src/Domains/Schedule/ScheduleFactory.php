@@ -2,7 +2,6 @@
 
 namespace Tymeshift\PhpTest\Domains\Schedule;
 
-use Tymeshift\PhpTest\Domains\Task\ScheduleCollection;
 use Tymeshift\PhpTest\Interfaces\CollectionInterface;
 use Tymeshift\PhpTest\Interfaces\EntityInterface;
 use Tymeshift\PhpTest\Interfaces\FactoryInterface;
