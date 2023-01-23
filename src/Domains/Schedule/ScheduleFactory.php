@@ -8,6 +8,12 @@ use Tymeshift\PhpTest\Interfaces\FactoryInterface;
 
 class ScheduleFactory implements FactoryInterface
 {
+    /**
+     * Creates entity from the data array.
+     *
+     * @param array $data
+     * @return EntityInterface
+     */
     public function createEntity(array $data): EntityInterface
     {
         $entity = new ScheduleEntity();
@@ -31,6 +37,13 @@ class ScheduleFactory implements FactoryInterface
         return $entity;
     }
 
+    /**
+     * Creates a collection of entities from the array data.
+     *
+     * @param array $data
+     * @return CollectionInterface
+     * @throws InvalidCollectionDataProvidedException
+     */
     public function createCollection(array $data): CollectionInterface
     {
         return (new ScheduleCollection())->createFromArray($data, $this);

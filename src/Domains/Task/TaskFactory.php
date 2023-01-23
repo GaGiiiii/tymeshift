@@ -11,6 +11,12 @@ use Tymeshift\PhpTest\Interfaces\FactoryInterface;
 
 class TaskFactory implements FactoryInterface
 {
+    /**
+     * Creates entity from the data array.
+     *
+     * @param array $data
+     * @return EntityInterface
+     */
     public function createEntity(array $data): EntityInterface
     {
         $entity = new TaskEntity();
@@ -35,6 +41,10 @@ class TaskFactory implements FactoryInterface
     }
 
     /**
+     * Creates a collection of entities from the array data.
+     *
+     * @param array $data
+     * @return CollectionInterface
      * @throws InvalidCollectionDataProvidedException
      */
     public function createCollection(array $data): CollectionInterface

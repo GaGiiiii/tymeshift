@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tymeshift\PhpTest\Domains\Task;
 
 use Tymeshift\PhpTest\Exceptions\StorageDataMissingException;
+use Tymeshift\PhpTest\Interfaces\CollectionInterface;
 use Tymeshift\PhpTest\Interfaces\EntityInterface;
 use Tymeshift\PhpTest\Interfaces\RepositoryInterface;
 

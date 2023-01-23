@@ -1,6 +1,6 @@
 ========== Global updates ==========
 
-1. Every file is PSR12 compatible now.
+1. Every file is PSR-12 compatible now.
 
 ========== Suggestions ==========
 
