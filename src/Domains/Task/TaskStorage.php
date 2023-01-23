@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Tymeshift\PhpTest\Domains\Task;
@@ -16,7 +17,6 @@ class TaskStorage
 
     public function getByScheduleId(int $id): array
     {
-
     }
 
     public function getByIds(array $ids): array

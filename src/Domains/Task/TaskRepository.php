@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Tymeshift\PhpTest\Domains\Task;
@@ -30,9 +31,8 @@ class TaskRepository implements RepositoryInterface
         // TODO: Implement getById() method.
     }
 
-    public function getByScheduleId(int $scheduleId):TaskCollection
+    public function getByScheduleId(int $scheduleId): TaskCollection
     {
-
     }
 
     public function getByIds(array $ids): TaskCollection

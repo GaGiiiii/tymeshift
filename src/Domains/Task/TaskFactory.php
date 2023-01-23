@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Tymeshift\PhpTest\Domains\Task;
@@ -19,7 +20,7 @@ class TaskFactory implements FactoryInterface
     /**
      * @throws InvalidCollectionDataProvidedException
      */
-    public function createCollection(array $data):CollectionInterface
+    public function createCollection(array $data): CollectionInterface
     {
         return (new TaskCollection())->createFromArray($data, $this);
     }

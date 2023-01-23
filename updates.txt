@@ -29,3 +29,16 @@
 
 1. FactoryInterface - added new method createCollection.
 2. RepositoryInterface - added new methods(getAll, update, delete)
+
+========== Schedule Updates / Suggestions ==========
+
+1. Add validation to the setter methods. (eg. endTime after startTime, name not empty etc.)
+2. Add __construct so we have other options for creating object besides builder pattern.
+3. Maybe use DateTimeImmutable instead of DateTime?
+4. Added ScheduleCollection class.
+5. Updated ScheduleFactory class, added createCollection method.
+6. Add more validation to ScheduleFactory. (same as for the setters)
+7. ScheduleRepository implements RepositoryInterface
+8. Added ScheduleStorageInterface
+9. Added Database class
+10. Added StorageInterface
