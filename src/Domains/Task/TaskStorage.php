@@ -21,43 +21,141 @@ class TaskStorage implements TaskStorageInterface
         $this->db = $database;
     }
 
+    /**
+     * Retrieves entity with the given scheduleId as array.
+     *
+     * @param int $id
+     * @return array
+     */
     public function getByScheduleId(int $schedule_id): array
     {
-        return $this->db->query(
-            'SELECT * FROM schedules WHERE schedule_id=:schedule_id',
-            [
-                "schedule_id" => $schedule_id
-            ]
-        );
+        try {
+            return $this->db->query(
+                "SELECT * FROM {$this->table} WHERE schedule_id=:schedule_id",
+                [
+                    "schedule_id" => $schedule_id
+                ]
+            );
+        } catch (PDOException $e) {
+            // Log to a file
+            throw $e;
+        } catch (Exception $e) {
+            throw $e;
+        }
     }
 
+    /**
+     * Retrieves entity with the given ID as array.
+     *
+     * @param int $id
+     * @return array
+     */
     public function getById(int $id): array
     {
-        return $this->db->query(
-            'SELECT * FROM schedules WHERE id=:id',
-            [
-                "id" => $id
-            ]
-        );
+        try {
+            return $this->db->query(
+                "SELECT * FROM {$this->table} WHERE id=:id",
+                [
+                    "id" => $id
+                ]
+            );
+        } catch (PDOException $e) {
+            // Log to a file
+            throw $e;
+        } catch (Exception $e) {
+            throw $e;
+        }
     }
 
+    /**
+     * Retrieves entities with the given IDs as array.
+     *
+     * @param array $ids
+     * @return array
+     */
     public function getByIds(array $ids): array
     {
-        return $this->db->query('SELECT * FROM schedules WHERE id in (:ids)', $ids);
+        try {
+            return $this->db->query("SELECT * FROM {$this->table} WHERE id in (:ids)", $ids);
+        } catch (PDOException $e) {
+            // Log to a file
+            throw $e;
+        } catch (Exception $e) {
+            throw $e;
+        }
     }
 
+    /**
+     * Retrieves all entities as array.
+     *
+     * @return array
+     */
     public function getAll(): array
     {
-        return $this->db->query('SELECT * FROM schedules', []);
+        try {
+            return $this->db->query("SELECT * FROM {$this->table}", []);
+        } catch (PDOException $e) {
+            // Log to a file
+            throw $e;
+        } catch (Exception $e) {
+            throw $e;
+        }
     }
 
+    /**
+     * Creates new entity.
+     *
+     * @param array $data
+     * @return int
+     * @throws PDOException
+     * @throws Exception
+     */
+    public function insert(array $data): int
+    {
+        try {
+            return $this->db->insert($this->table, $data);
+        } catch (PDOException $e) {
+            // Log to a file.
+            throw $e;
+        } catch (Exception $e) {
+            throw $e;
+        }
+    }
+
+    /**
+     * Updates from the array data based on the conditions.
+     *
+     * @param array $data
+     * @param array $conditions
+     * @return int
+     */
     public function update(array $data, array $conditions): int
     {
-        return $this->db->update($this->table, $data, $conditions);
+        try {
+            return $this->db->update($this->table, $data, $conditions);
+        } catch (PDOException $e) {
+            // Log to a file
+            throw $e;
+        } catch (Exception $e) {
+            throw $e;
+        }
     }
 
+    /**
+     * Delete based on conditions.
+     *
+     * @param array $conditions
+     * @return int
+     */
     public function delete(array $conditions): int
     {
-        return $this->db->delete($this->table, $conditions);
+        try {
+            return $this->db->delete($this->table, $conditions);
+        } catch (PDOException $e) {
+            // Log to a file
+            throw $e;
+        } catch (Exception $e) {
+            throw $e;
+        }
     }
 }

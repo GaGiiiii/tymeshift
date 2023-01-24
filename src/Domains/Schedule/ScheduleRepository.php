@@ -7,6 +7,7 @@ use PDO;
 use PDOException;
 use Tymeshift\PhpTest\Domains\Schedule\ScheduleStorage;
 use Tymeshift\PhpTest\Exceptions\DataNotDeletedException;
+use Tymeshift\PhpTest\Exceptions\DataNotInsertedException;
 use Tymeshift\PhpTest\Exceptions\DataNotUpdatedException;
 use Tymeshift\PhpTest\Exceptions\StorageDataMissingException;
 use Tymeshift\PhpTest\Interfaces\EntityInterface;
@@ -24,6 +25,15 @@ class ScheduleRepository implements RepositoryInterface
         $this->factory = $factory;
     }
 
+    /**
+     * Retrieves entity with the given ID.
+     *
+     * @param int $id
+     * @return EntityInterface
+     * @throws StorageDataMissingException
+     * @throws PDOException
+     * @throws Exception
+     */
     public function getById(int $id): EntityInterface
     {
         try {
@@ -41,6 +51,16 @@ class ScheduleRepository implements RepositoryInterface
         return $this->factory->createEntity($data);
     }
 
+
+    /**
+     * Retrieves entities with the given IDs.
+     *
+     * @param array $ids
+     * @return CollectionInterface
+     * @throws StorageDataMissingException
+     * @throws PDOException
+     * @throws Exception
+     */
     public function getByIds(array $ids): ScheduleCollection
     {
         try {
@@ -58,6 +78,14 @@ class ScheduleRepository implements RepositoryInterface
         return $this->factory->createCollection($data);
     }
 
+    /**
+     * Retrieves all entities.
+     *
+     * @return CollectionInterface
+     * @throws StorageDataMissingException
+     * @throws PDOException
+     * @throws Exception
+     */
     public function getAll(): ScheduleCollection
     {
         try {
@@ -75,6 +103,40 @@ class ScheduleRepository implements RepositoryInterface
         return $this->factory->createCollection($data);
     }
 
+    /**
+     * Creates new entity.
+     *
+     * @param array $data
+     * @return int
+     * @throws PDOException
+     * @throws Exception
+     */
+    public function insert(array $data): int
+    {
+        try {
+            $lastInsertId = $this->storage->insert($data);
+        } catch (PDOException $e) {
+            throw $e;
+        } catch (Exception $e) {
+            throw $e;
+        }
+
+        if ($lastInsertId === null) {
+            throw new DataNotInsertedException('Insert failed.');
+        }
+
+        return $lastInsertId;
+    }
+
+    /**
+     * Updates entity with the data and provided ID.
+     *
+     * @param array $data
+     * @param int $id
+     * @return int
+     * @throws PDOException
+     * @throws Exception
+     */
     public function update(array $data, int $id): int
     {
         try {
@@ -94,6 +156,14 @@ class ScheduleRepository implements RepositoryInterface
         return $rowsUpdated;
     }
 
+    /**
+     * Deletes entity based on the ID.
+     *
+     * @param int $id
+     * @return int
+     * @throws PDOException
+     * @throws Exception
+     */
     public function delete(int $id): int
     {
         try {

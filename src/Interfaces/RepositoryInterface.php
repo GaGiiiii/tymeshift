@@ -43,6 +43,16 @@ interface RepositoryInterface
     public function getAll(): CollectionInterface;
 
     /**
+     * Creates new entity.
+     *
+     * @param array $data
+     * @return int
+     * @throws PDOException
+     * @throws Exception
+     */
+    public function insert(array $data): int;
+
+    /**
      * Updates entity with the data and provided ID.
      *
      * @param array $data

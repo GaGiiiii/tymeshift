@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tests;
 
 use Codeception\Example;
-use Mockery\MockInterface;
 use Tymeshift\PhpTest\Components\HttpClient;
 use Tymeshift\PhpTest\Domains\Schedule\ScheduleRepository;
 use Tymeshift\PhpTest\Domains\Schedule\ScheduleFactory;
@@ -49,6 +48,34 @@ class ScheduleCest
         $entity = $this->scheduleRepository->getById($id);
 
         $tester->assertEquals($id, $entity->getId());
+        $tester->assertEquals($startTime, $entity->getStartTime()->getTimestamp());
+        $tester->assertEquals($endTime, $entity->getEndTime()->getTimestamp());
+        $tester->assertEquals($name, $entity->getName());
+    }
+
+    /**
+     * @dataProvider scheduleProvider
+     */
+    public function insert(Example $example, \UnitTester $tester)
+    {
+        ['id' => $id, 'start_time' => $startTime, 'end_time' => $endTime, 'name' => $name] = $example;
+        $dataToInsert = ['id' => $id, 'start_time' => $startTime, 'end_time' => $endTime, 'name' => $name];
+
+        $this->scheduleStorageMock
+            ->shouldReceive('insert')
+            ->with($dataToInsert)
+            ->andReturn(1);
+
+        $lastInsertId = $this->scheduleRepository->insert($dataToInsert);
+
+        $this->scheduleStorageMock
+            ->shouldReceive('getById')
+            ->with($id)
+            ->andReturn($dataToInsert);
+
+        $entity = $this->scheduleRepository->getById($id);
+
+        $tester->assertEquals($lastInsertId, $id);
         $tester->assertEquals($startTime, $entity->getStartTime()->getTimestamp());
         $tester->assertEquals($endTime, $entity->getEndTime()->getTimestamp());
         $tester->assertEquals($name, $entity->getName());

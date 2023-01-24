@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Tymeshift\PhpTest\Domains\Schedule;
 
+use Exception;
+use PDOException;
 use Tymeshift\PhpTest\Components\HttpClientInterface;
 use Tymeshift\PhpTest\Domains\Task\TaskCollection;
 use Tymeshift\PhpTest\Domains\Task\TaskFactory;
@@ -20,6 +22,15 @@ class ScheduleService
         $this->httpClient = $httpClient;
     }
 
+    /**
+     * Finds schedule by ID and fills schedule items array from the response data.
+     *
+     * @param int $scheduleId
+     * @return ScheduleEntity
+     * @throws StorageDataMissingException
+     * @throws PDOException
+     * @throws Exception
+     */
     public function fillScheduleItems(int $scheduleId): ScheduleEntity
     {
         try {

@@ -19,11 +19,19 @@ class ScheduleStorage implements ScheduleStorageInterface
         $this->db = $database;
     }
 
+    /**
+     * Retrieves entity with the given ID as array.
+     *
+     * @param int $id
+     * @return array
+     * @throws PDOException
+     * @throws Exception
+     */
     public function getById(int $id): array
     {
         try {
             return $this->db->query(
-                'SELECT * FROM schedules WHERE id=:id',
+                "SELECT * FROM {$this->table} WHERE id=:id",
                 [
                     "id" => $id
                 ]
@@ -36,10 +44,18 @@ class ScheduleStorage implements ScheduleStorageInterface
         }
     }
 
+    /**
+     * Retrieves entities with the given IDs as array.
+     *
+     * @param array $ids
+     * @return array
+     * @throws PDOException
+     * @throws Exception
+     */
     public function getByIds(array $ids): array
     {
         try {
-            return $this->db->query('SELECT * FROM schedules WHERE id in (:ids)', $ids);
+            return $this->db->query("SELECT * FROM {$this->table} WHERE id in (:ids)", $ids);
         } catch (PDOException $e) {
             // Log to a file.
             throw $e;
@@ -48,10 +64,17 @@ class ScheduleStorage implements ScheduleStorageInterface
         }
     }
 
+    /**
+     * Retrieves all entities as array.
+     *
+     * @return array
+     * @throws PDOException
+     * @throws Exception
+     */
     public function getAll(): array
     {
         try {
-            return $this->db->query('SELECT * FROM schedules', []);
+            return $this->db->query("SELECT * FROM {$this->table}", []);
         } catch (PDOException $e) {
             // Log to a file.
             throw $e;
@@ -60,6 +83,35 @@ class ScheduleStorage implements ScheduleStorageInterface
         }
     }
 
+    /**
+     * Creates new entity.
+     *
+     * @param array $data
+     * @return int
+     * @throws PDOException
+     * @throws Exception
+     */
+    public function insert(array $data): int
+    {
+        try {
+            return $this->db->insert($this->table, $data);
+        } catch (PDOException $e) {
+            // Log to a file.
+            throw $e;
+        } catch (Exception $e) {
+            throw $e;
+        }
+    }
+
+    /**
+     * Updates from the array data based on the conditions.
+     *
+     * @param array $data
+     * @param array $conditions
+     * @return int
+     * @throws PDOException
+     * @throws Exception
+     */
     public function update(array $data, array $conditions): int
     {
         try {
@@ -72,6 +124,14 @@ class ScheduleStorage implements ScheduleStorageInterface
         }
     }
 
+    /**
+     * Delete based on conditions.
+     *
+     * @param array $conditions
+     * @return int
+     * @throws PDOException
+     * @throws Exception
+     */
     public function delete(array $conditions): int
     {
         try {
