@@ -2,6 +2,7 @@
 
 ### Global updates:
 - Every file is PSR-12 compatible now.
+- Methods documented with PHPDocs.
 
 ### Suggestions:
 - Return lines should ALWAYS have an empty line above them so the code is more readable, except if return line is the only line in the code block. 
@@ -34,3 +35,18 @@
   - insert
   - update
   - delete
+
+### Schedule domain updates:
+- Added new class ScheduleCollection.
+- Added new class ScheduleStorageInterface.
+- Added new class ScheduleService.
+- Added new method (createCollection) to the ScheduleFactory.
+- Updated class ScheduleRepository.
+- Updated class ScheduleStorage.
+
+### Task domain updates:
+- Updated class TaskEntity.
+- Added new class TaskStorageInterface.
+- Updated class TaskFactory.
+- Updated class ScheduleRepository.
+- Updated class ScheduleStorage.
