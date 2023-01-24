@@ -43,6 +43,7 @@
 - Added new method (createCollection) to the ScheduleFactory.
 - Updated class ScheduleRepository.
 - Updated class ScheduleStorage.
+- Added error handling.
 
 ### Task domain updates:
 - Updated class TaskEntity.
@@ -50,3 +51,9 @@
 - Updated class TaskFactory.
 - Updated class ScheduleRepository.
 - Updated class ScheduleStorage.
+- Added error handling.
+
+### Domain suggestions:
+- Add validation to the setter methods (eg. endTime after startTime, name not empty etc.).
+- Add __construct so we have other options for creating object besides builder pattern.
+- Maybe use DateTimeImmutable instead of DateTime?
