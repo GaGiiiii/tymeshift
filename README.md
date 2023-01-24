@@ -1,23 +1,36 @@
-# tymeshift's PHP code test 🧪
+# LIST OF THE UPDATES
 
-## Task Description 
-This test project represents a small and simplified part of our backend. It is not identical to what we're using in production but it shows very briefly what is the structure and patterns that we're applying at tymeshift.
+### Global updates:
+- Every file is PSR-12 compatible now.
 
-## Prerequisites
-- `make` installed on your PC
-- Docker for running project locally
+### Suggestions:
+- Return lines should ALWAYS have an empty line above them so the code is more readable, except if return line is the only line in the code block. 
+- Create DTO's for Domains.
 
-## Guidelines 
-- To build image run `make build` or run `docker build` command from Makefile
-- Run `make run` to start container or run `docker run` command from Makefile
-- Inside container run `composer install` to install all dependencies 
-- Followed by `make test` to run unit test suite
-- You can upload your solution to GitHub or send us a ZIP file with the solution via email (via reply in Breezy)
+### Dockerfile updates:
+- Removed volume from docker run command and added composer install to the Dockerfile (We should not be entering the container after build).
+- Removed maintainer (deprecated), removed add (copy is better practice), updated composer install (more efficient and shorter).
 
-## Tasks
-- Look around see what you like \ don't like and get familiar with code structure, so we can discuss it during the interview
-- Fix tests and add any improvement you see suitable
-- BONUS: Implement `ScheduleService` which picks up a `ScheduleEntity` via `DatabaseInterface` mock and `TaskCollection`
-via mocking `HttpClientInterface` response and fills `ScheduleEntity::$items`
+### BaseCollection updates:
+- getIterator() returns Traversable now.
+- count() returns int now.
+- offsetExists() returns bool now.
+- offsetSet() returns void.
+- offsetUnset() returns void.
+- getAssoc() returns BaseCollection instead of Collection now.
 
-Happy coding!
+### Exceptions updates:
+- Added protected visibility to the message variable.
+- Updated StorageDataMissingException.
+- Created new Exceptions: 
+  - DataNotInsertedException
+  - DataNotUpdatedException
+  - DataNotDeletedException
+  
+### Interfaces updates:
+- Added new method (createCollection) to the FactoryInterface.
+- Added new methods to the RepositoryInterface and to the StorageInterface:
+  - getAll
+  - insert
+  - update
+  - delete
